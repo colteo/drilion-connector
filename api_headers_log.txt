@@ -1,0 +1,696 @@
+[2025-03-01 09:29:34] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => 7238915a-461c-4874-896d-695513e3a9fb
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 37
+        )
+
+)
+
+
+[2025-03-01 09:29:34] Problema: Header x-api-key mancante
+
+[2025-03-01 09:29:34] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => 7238915a-461c-4874-896d-695513e3a9fb
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 37
+        )
+
+)
+
+
+[2025-03-01 09:29:34] Problema: Header x-api-key mancante
+
+[2025-03-01 09:30:46] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => b57999ec-88dc-4e31-ad84-80ec87233539
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 37
+        )
+
+)
+
+
+[2025-03-01 09:30:46] Autenticazione riuscita
+
+[2025-03-01 09:30:46] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => b57999ec-88dc-4e31-ad84-80ec87233539
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 37
+        )
+
+)
+
+
+[2025-03-01 09:30:46] Autenticazione riuscita
+
+[2025-03-01 09:30:54] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => 1441ff93-2d93-4061-836e-8a213bf46bbb
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 54
+        )
+
+)
+
+
+[2025-03-01 09:30:54] Autenticazione riuscita
+
+[2025-03-01 09:30:54] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => 1441ff93-2d93-4061-836e-8a213bf46bbb
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 54
+        )
+
+)
+
+
+[2025-03-01 09:30:54] Autenticazione riuscita
+
+[2025-03-01 09:35:56] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => a8a97d78-f60b-48de-a1e6-55d390c4bb08
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 54
+        )
+
+)
+
+
+[2025-03-01 09:35:56] Autenticazione riuscita
+
+[2025-03-01 09:35:56] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => a8a97d78-f60b-48de-a1e6-55d390c4bb08
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 54
+        )
+
+)
+
+
+[2025-03-01 09:35:56] Autenticazione riuscita
+
+[2025-03-01 09:36:30] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => fcb6afae-40a0-4ffe-a114-cd627a1a8492
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 54
+        )
+
+)
+
+
+[2025-03-01 09:36:30] Autenticazione riuscita
+
+[2025-03-01 09:37:33] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => 0c068094-9118-4e73-b993-c7682a3f9cf1
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 54
+        )
+
+)
+
+
+[2025-03-01 09:37:33] Autenticazione riuscita
+
+[2025-03-01 09:38:33] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => cdbe10c3-59cb-4ad3-b148-9d0c29aad7d9
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 54
+        )
+
+)
+
+
+[2025-03-01 09:38:33] Autenticazione riuscita
+
+[2025-03-01 09:38:33] Headers ricevuti:
+Array
+(
+    [authorization] => Array
+        (
+            [0] => 
+        )
+
+    [x_api_key] => Array
+        (
+            [0] => I7V0cBVoPuA1hexW8vWa11xs2E2qiITP
+        )
+
+    [content_type] => Array
+        (
+            [0] => application/json
+        )
+
+    [user_agent] => Array
+        (
+            [0] => PostmanRuntime/7.29.2
+        )
+
+    [accept] => Array
+        (
+            [0] => */*
+        )
+
+    [postman_token] => Array
+        (
+            [0] => cdbe10c3-59cb-4ad3-b148-9d0c29aad7d9
+        )
+
+    [host] => Array
+        (
+            [0] => localhost
+        )
+
+    [accept_encoding] => Array
+        (
+            [0] => gzip, deflate, br
+        )
+
+    [connection] => Array
+        (
+            [0] => keep-alive
+        )
+
+    [content_length] => Array
+        (
+            [0] => 54
+        )
+
+)
+
+
+[2025-03-01 09:38:33] Autenticazione riuscita
+
