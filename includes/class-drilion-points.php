@@ -35,16 +35,11 @@ class Drilion_Points {
         }
         
         // Calcola il valore in euro dei buoni piatto (100 BP = 1€)
-        $buoni_piatto_euro = number_format($buoni_piatto / 100, 2, '.', '');
+        // Arrotonda a 2 decimali e formatta con la virgola come separatore decimale
+        $buoni_piatto_euro = number_format(round($buoni_piatto / 100, 2), 2, ',', '');
         
         // Determina il livello attuale e punti necessari per il livello successivo
         $level_data = $this->get_user_level_data($exp_points);
-        
-        // Ottieni la data di compleanno se disponibile
-        $birthday = get_user_meta($user_id, 'billing_birth_date', true);
-        if (empty($birthday)) {
-            $birthday = '';
-        }
         
         // Ottieni l'email dell'utente
         $user_info = get_userdata($user_id);
@@ -52,10 +47,9 @@ class Drilion_Points {
         return array(
             'email' => $user_info->user_email,
             'buoni_piatto' => $buoni_piatto,
-            'buoni_piatto_euro' => (float) $buoni_piatto_euro,
+            'buoni_piatto_euro' => $buoni_piatto_euro, // Stringa
             'punti_esperienza' => $exp_points,
-            'punti_per_livello_successivo' => $level_data['points_to_next_level'],
-            'birthday' => $birthday,
+            'punti_per_livello_successivo' => $level_data['points_to_next_level']
         );
     }
     
