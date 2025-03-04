@@ -82,7 +82,7 @@ class Drilion_API {
      * Callback per l'endpoint di recupero dati utente
      */
     public function get_user_data($request) {
-        global $drilion_connector;
+        global $drilion_connector, $wpdb;
         
         // Ottieni i parametri dalla richiesta
         $params = $request->get_params();
@@ -94,44 +94,53 @@ class Drilion_API {
         
         $email = sanitize_email($params['email']);
         
-        // Cerca l'utente per email
+        // CASO 1: Cerca l'utente per email nel database WordPress
         $user = get_user_by('email', $email);
         
-        // Prepara l'array di dati utente
-        $user_data = array();
-        
-        if (!$user) {
-            // L'utente non è registrato, è un ospite
-            $user_data = array(
-                'email' => $email,
-                'buoni_piatto' => 0,
-                'buoni_piatto_euro' => '0,00',
-                'punti_esperienza' => 0,
-                'punti_per_livello_successivo' => 0,
-                'is_guest' => true
-            );
-        } else {
+        if ($user) {
             // L'utente è registrato, ottieni i dati attraverso la classe dei punti
             if (isset($drilion_connector) && method_exists($drilion_connector->points, 'get_user_points_data')) {
                 $user_data = $drilion_connector->points->get_user_points_data($user->ID);
-            } else {
-                // Risposta predefinita se la classe dei punti non è disponibile
-                $user_data = array(
-                    'email' => $email,
-                    'buoni_piatto' => 0,
-                    'buoni_piatto_euro' => '0,00',
-                    'punti_esperienza' => 0,
-                    'punti_per_livello_successivo' => 500,
-                    'is_guest' => false
-                );
+                
+                // Registra la richiesta nei log
+                if (isset($drilion_connector) && method_exists($drilion_connector->logs, 'log_api_request')) {
+                    $drilion_connector->logs->log_api_request($email, $user_data);
+                }
+                
+                return rest_ensure_response($user_data);
             }
         }
         
-        // Registra la richiesta nei log
-        if (isset($drilion_connector) && method_exists($drilion_connector->logs, 'log_api_request')) {
-            $drilion_connector->logs->log_api_request($email, $user_data);
+        // CASO 2: Controlla se l'email corrisponde a un cliente ospite (non registrato) in WooCommerce
+        // Verifica se WooCommerce è attivo
+        if (function_exists('wc_get_orders')) {
+            // Cerca un ordine con questa email come billing_email
+            $orders = wc_get_orders(array(
+                'billing_email' => $email,
+                'limit' => 1,
+            ));
+            
+            if (!empty($orders)) {
+                // Trovato un cliente ospite con ordini
+                $user_data = array(
+                    'email' => $email,
+                    'is_guest' => true
+                );
+                
+                // Registra la richiesta nei log
+                if (isset($drilion_connector) && method_exists($drilion_connector->logs, 'log_api_request')) {
+                    $drilion_connector->logs->log_api_request($email, $user_data);
+                }
+                
+                return rest_ensure_response($user_data);
+            }
         }
         
-        return rest_ensure_response($user_data);
+        // CASO 3: Se arriviamo qui, l'email non corrisponde a nessun cliente
+        return new WP_Error(
+            'user_not_found',
+            'Utente non trovato',
+            array('status' => 404)
+        );
     }
 }
