@@ -22,6 +22,21 @@ class Drilion_Points {
      * Ottiene i dati dei punti utente
      */
     public function get_user_points_data($user_id) {
+        // Verifica se l'utente è registrato
+        $is_guest = $user_id === 0 || $user_id === null;
+        
+        // Se è un ospite, restituisci dati base indicando che è un guest
+        if ($is_guest) {
+            return array(
+                'email' => '',
+                'buoni_piatto' => 0,
+                'buoni_piatto_euro' => '0,00',
+                'punti_esperienza' => 0,
+                'punti_per_livello_successivo' => 0,
+                'is_guest' => true
+            );
+        }
+        
         // Recupera i punti esperienza
         $exp_points = (int) get_user_meta($user_id, 'lws_wre_points_programma_fedelta', true);
         if (empty($exp_points)) {
@@ -49,7 +64,8 @@ class Drilion_Points {
             'buoni_piatto' => $buoni_piatto,
             'buoni_piatto_euro' => $buoni_piatto_euro, // Stringa
             'punti_esperienza' => $exp_points,
-            'punti_per_livello_successivo' => $level_data['points_to_next_level']
+            'punti_per_livello_successivo' => $level_data['points_to_next_level'],
+            'is_guest' => false
         );
     }
     

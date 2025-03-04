@@ -97,26 +97,34 @@ class Drilion_API {
         // Cerca l'utente per email
         $user = get_user_by('email', $email);
         
-        if (!$user) {
-            return new WP_Error('user_not_found', 'Utente non trovato', array('status' => 404));
-        }
-        
-        // Ottieni i dati dell'utente attraverso la classe dei punti
-        // Verifica se la classe dei punti è disponibile
+        // Prepara l'array di dati utente
         $user_data = array();
         
-        if (isset($drilion_connector) && method_exists($drilion_connector->points, 'get_user_points_data')) {
-            $user_data = $drilion_connector->points->get_user_points_data($user->ID);
-        } else {
-            // Risposta predefinita se la classe dei punti non è disponibile
+        if (!$user) {
+            // L'utente non è registrato, è un ospite
             $user_data = array(
                 'email' => $email,
                 'buoni_piatto' => 0,
-                'buoni_piatto_euro' => 0.00,
+                'buoni_piatto_euro' => '0,00',
                 'punti_esperienza' => 0,
-                'punti_per_livello_successivo' => 500,
-                'birthday' => '',
+                'punti_per_livello_successivo' => 0,
+                'is_guest' => true
             );
+        } else {
+            // L'utente è registrato, ottieni i dati attraverso la classe dei punti
+            if (isset($drilion_connector) && method_exists($drilion_connector->points, 'get_user_points_data')) {
+                $user_data = $drilion_connector->points->get_user_points_data($user->ID);
+            } else {
+                // Risposta predefinita se la classe dei punti non è disponibile
+                $user_data = array(
+                    'email' => $email,
+                    'buoni_piatto' => 0,
+                    'buoni_piatto_euro' => '0,00',
+                    'punti_esperienza' => 0,
+                    'punti_per_livello_successivo' => 500,
+                    'is_guest' => false
+                );
+            }
         }
         
         // Registra la richiesta nei log
