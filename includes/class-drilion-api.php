@@ -21,6 +21,13 @@ class Drilion_API {
             'callback' => array($this, 'get_user_data'),
             'permission_callback' => array($this, 'check_api_permission'),
         ));
+        
+        // Nuovo endpoint per azzerare i punti dell'utente
+        register_rest_route('drilion/v1', '/reset-user-points', array(
+            'methods' => 'POST',
+            'callback' => array($this, 'reset_user_points'),
+            'permission_callback' => array($this, 'check_api_permission'),
+        ));
     }
     
     /**
@@ -142,5 +149,103 @@ class Drilion_API {
             'Utente non trovato',
             array('status' => 404)
         );
+    }
+    
+    /**
+     * Callback per l'endpoint di azzeramento punti utente
+     */
+    public function reset_user_points($request) {
+        global $drilion_connector;
+        
+        // Ottieni i parametri dalla richiesta
+        $params = $request->get_params();
+        
+        // Verifica che l'email dell'utente sia fornita
+        if (empty($params['email'])) {
+            return new WP_Error('missing_email', 'Email utente mancante', array('status' => 400));
+        }
+        
+        $email = sanitize_email($params['email']);
+        
+        // Cerca l'utente per email nel database WordPress
+        $user = get_user_by('email', $email);
+        
+        if (!$user) {
+            return new WP_Error(
+                'user_not_found',
+                'Utente non trovato',
+                array('status' => 404)
+            );
+        }
+        
+        // Valori precedenti per logging
+        $previous_exp_points = (int)get_user_meta($user->ID, 'lws_wre_points_programma_fedelta', true);
+        $previous_buoni_piatto = (int)get_user_meta($user->ID, 'lws_wre_points_buoni_piatto', true);
+        
+        // Ottieni la soglia del livello precedente e il livello corrente
+        $current_level_data = $drilion_connector->points->get_user_level_data($previous_exp_points);
+        $current_level = $current_level_data['current_level'];
+        
+        // Definizione delle soglie di livello (ripreso da class-drilion-points.php)
+        $levels = array(
+            1 => array('required_points' => 1),
+            2 => array('required_points' => 500),
+            3 => array('required_points' => 1000),
+            4 => array('required_points' => 2000),
+            5 => array('required_points' => 3000),
+        );
+        
+        // Calcola i nuovi punti esperienza (al livello precedente)
+        $new_exp_points = $previous_exp_points;
+        
+        // Se l'utente non è già al livello 1, riduci il livello
+        if ($current_level > 1) {
+            $previous_level = $current_level - 1;
+            
+            // Imposta punti alla soglia del livello corrente (non successivo) meno 1
+            // In questo modo l'utente sarà esattamente appena sotto la soglia del suo livello originario
+            $new_exp_points = $levels[$current_level]['required_points'] - 1;
+            
+            // Se per qualche motivo questo valore è minore della soglia del livello precedente,
+            // assicuriamoci che sia almeno al minimo per mantenere il livello precedente
+            if ($new_exp_points < $levels[$previous_level]['required_points']) {
+                $new_exp_points = $levels[$previous_level]['required_points'];
+            }
+        }
+        
+        // Azzera solo i buoni piatto
+        update_user_meta($user->ID, 'lws_wre_points_buoni_piatto', 0);
+        
+        // Aggiorna i punti esperienza per portare l'utente al livello precedente
+        update_user_meta($user->ID, 'lws_wre_points_programma_fedelta', $new_exp_points);
+        
+        // Prepara risposta
+        $response_data = array(
+            'email' => $email,
+            'success' => true,
+            'previous_values' => array(
+                'punti_esperienza' => $previous_exp_points,
+                'buoni_piatto' => $previous_buoni_piatto,
+                'livello' => $current_level
+            ),
+            'current_values' => array(
+                'punti_esperienza' => $new_exp_points,
+                'buoni_piatto' => 0,
+                'livello' => $current_level > 1 ? $current_level - 1 : 1
+            )
+        );
+        
+        // Registra la richiesta nei log
+        if (isset($drilion_connector) && method_exists($drilion_connector->logs, 'log_api_request')) {
+            $log_data = array(
+                'action' => 'reset_points',
+                'email' => $email,
+                'previous_values' => $response_data['previous_values'],
+                'current_values' => $response_data['current_values']
+            );
+            $drilion_connector->logs->log_api_request($email, $log_data);
+        }
+        
+        return rest_ensure_response($response_data);
     }
 }
