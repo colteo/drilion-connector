@@ -33,6 +33,7 @@ class Drilion_Points {
                 'buoni_piatto_euro' => '0,00',
                 'punti_esperienza' => 0,
                 'punti_per_livello_successivo' => 0,
+                'livello' => 'livello 1', // Aggiungiamo il livello predefinito per gli ospiti
                 'is_guest' => true
             );
         }
@@ -65,6 +66,7 @@ class Drilion_Points {
             'buoni_piatto_euro' => $buoni_piatto_euro, // Stringa
             'punti_esperienza' => $exp_points,
             'punti_per_livello_successivo' => $level_data['points_to_next_level'],
+            'livello' => 'livello ' . $level_data['current_level'], // Aggiungiamo il livello corrente dell'utente
             'is_guest' => false
         );
     }
