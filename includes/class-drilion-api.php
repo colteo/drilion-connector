@@ -22,10 +22,17 @@ class Drilion_API {
             'permission_callback' => array($this, 'check_api_permission'),
         ));
         
-        // Nuovo endpoint per azzerare i punti dell'utente
+        // Endpoint per azzerare i punti dell'utente
         register_rest_route('drilion/v1', '/reset-user-points', array(
             'methods' => 'POST',
             'callback' => array($this, 'reset_user_points'),
+            'permission_callback' => array($this, 'check_api_permission'),
+        ));
+
+        // Endpoint per gestire l'esclusione di email dai coupon
+        register_rest_route('drilion/v1', '/coupon-email-exclusion', array(
+            'methods' => 'POST',
+            'callback' => array($this, 'handle_coupon_email_exclusion'),
             'permission_callback' => array($this, 'check_api_permission'),
         ));
     }
@@ -242,6 +249,116 @@ class Drilion_API {
                 'email' => $email,
                 'previous_values' => $response_data['previous_values'],
                 'current_values' => $response_data['current_values']
+            );
+            $drilion_connector->logs->log_api_request($email, $log_data);
+        }
+        
+        return rest_ensure_response($response_data);
+    }
+
+    /**
+     * Callback per l'endpoint di gestione dell'esclusione di email dai coupon
+     */
+    public function handle_coupon_email_exclusion($request) {
+        global $drilion_connector, $wpdb;
+        
+        // Ottieni i parametri dalla richiesta
+        $params = $request->get_params();
+        
+        // Verifica che entrambi i parametri siano forniti
+        if (empty($params['coupon_code'])) {
+            return new WP_Error('missing_coupon_code', 'Codice coupon mancante', array('status' => 400));
+        }
+        
+        if (empty($params['email'])) {
+            return new WP_Error('missing_email', 'Email mancante', array('status' => 400));
+        }
+        
+        $coupon_code = sanitize_text_field($params['coupon_code']);
+        $email = sanitize_email($params['email']);
+        
+        // Cerca il coupon con il codice fornito
+        $coupon_id = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT ID FROM {$wpdb->posts} 
+                 WHERE post_title = %s 
+                 AND post_type = 'shop_coupon' 
+                 AND post_status = 'publish'",
+                $coupon_code
+            )
+        );
+        
+        if (!$coupon_id) {
+            return new WP_Error(
+                'coupon_not_found',
+                'Coupon non trovato',
+                array('status' => 404)
+            );
+        }
+        
+        // Cerca se esiste già un meta per le email escluse
+        $meta_key = 'wc_sc_excluded_customer_email';
+        $excluded_emails_serialized = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT meta_value FROM {$wpdb->postmeta} 
+                 WHERE post_id = %d 
+                 AND meta_key = %s",
+                $coupon_id,
+                $meta_key
+            )
+        );
+        
+        // Inizializza l'array delle email escluse
+        if ($excluded_emails_serialized) {
+            $excluded_emails = maybe_unserialize($excluded_emails_serialized);
+            if (!is_array($excluded_emails)) {
+                $excluded_emails = array();
+            }
+        } else {
+            $excluded_emails = array();
+        }
+        
+        // Verifica se l'email è già nella lista
+        $email_already_excluded = false;
+        foreach ($excluded_emails as $existing_email) {
+            if ($existing_email === $email) {
+                $email_already_excluded = true;
+                break;
+            }
+        }
+        
+        // Se l'email non è già esclusa, aggiungila
+        if (!$email_already_excluded) {
+            $excluded_emails[] = $email;
+            
+            // Aggiorna il meta del coupon
+            update_post_meta($coupon_id, $meta_key, $excluded_emails);
+            
+            $success = true;
+            $message = "Email '{$email}' esclusa con successo dal coupon '{$coupon_code}'";
+        } else {
+            $success = false;
+            $message = "L'email '{$email}' è già esclusa dal coupon '{$coupon_code}'";
+        }
+        
+        // Prepara risposta
+        $response_data = array(
+            'success' => $success,
+            'message' => $message,
+            'coupon_code' => $coupon_code,
+            'coupon_id' => $coupon_id,
+            'email' => $email,
+            'excluded_emails' => $excluded_emails
+        );
+        
+        // Registra la richiesta nei log
+        if (isset($drilion_connector) && method_exists($drilion_connector->logs, 'log_api_request')) {
+            $log_data = array(
+                'action' => 'coupon_email_exclusion',
+                'coupon_code' => $coupon_code,
+                'email' => $email,
+                'success' => $success,
+                'excluded_emails' => $excluded_emails
             );
             $drilion_connector->logs->log_api_request($email, $log_data);
         }

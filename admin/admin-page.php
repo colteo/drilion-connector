@@ -75,8 +75,8 @@ global $drilion_connector;
             </pre>
         </div>
         
-        <!-- Nuovo endpoint per azzerare i punti dell'utente -->
-        <div>
+        <!-- Endpoint per azzerare i punti dell'utente -->
+        <div style="border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px;">
             <h3>Azzerare i buoni piatto e ridurre il livello dell'utente</h3>
             <p>Per azzerare i buoni piatto e ridurre l'utente al livello precedente, invia una richiesta POST all'endpoint seguente:</p>
             <code><?php echo rest_url('drilion/v1/reset-user-points'); ?></code>
@@ -109,6 +109,42 @@ global $drilion_connector;
         "buoni_piatto": 0,
         "livello": 3
     }
+}
+            </pre>
+        </div>
+        
+        <!-- Nuovo endpoint per esclusione email dai coupon -->
+        <div>
+            <h3>Escludere un'email dall'utilizzo di un coupon</h3>
+            <p>Per escludere un'email specifica dall'utilizzo di un coupon, invia una richiesta POST all'endpoint seguente:</p>
+            <code><?php echo rest_url('drilion/v1/coupon-email-exclusion'); ?></code>
+            
+            <h4>Intestazioni richieste</h4>
+            <ul>
+                <li><code>Content-Type: application/json</code></li>
+                <li><code>X-API-Key: <?php echo esc_html($api_key); ?></code></li>
+            </ul>
+            
+            <h4>Parametri della richiesta</h4>
+            <pre style="background: #f5f5f5; padding: 10px; border: 1px solid #ddd; overflow: auto;">
+{
+    "coupon_code": "SCONTO10",
+    "email": "email@utente.com"
+}
+            </pre>
+            
+            <h4>Risposta di esempio</h4>
+            <pre style="background: #f5f5f5; padding: 10px; border: 1px solid #ddd; overflow: auto;">
+{
+    "success": true,
+    "message": "Email 'email@utente.com' esclusa con successo dal coupon 'SCONTO10'",
+    "coupon_code": "SCONTO10",
+    "coupon_id": 1234,
+    "email": "email@utente.com",
+    "excluded_emails": [
+        "altrouser@esempio.com",
+        "email@utente.com"
+    ]
 }
             </pre>
         </div>
